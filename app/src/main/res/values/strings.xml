@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">SimpleTasks</string>
+
+    <string name="task_1">Task A234</string>
+    <string name="task_2">Task A235</string>
+    <string name="task_3">Task A236</string>
+    <string name="task_4">Task A237</string>
+    <string name="task_5">Task A238</string>
+    <string name="task_6">Task A239</string>
+    <string name="task_7">Task A240</string>
+    <string name="task_8">Task B13</string>
+    <string name="task_9">Task B14</string>
+    <string name="task_10">Task B15</string>
+    <string name="task_11">Task B16</string>
+    <string name="task_12">Task B19</string>
+    <string name="task_13">Task B21</string>
+    <string name="task_14">Task B23</string>
+    <string name="task_15">Task C313</string>
+    <string name="task_16">Task C333</string>
+    <string name="task_17">Task C345</string>
+    <string name="task_18">Task C346</string>
+    <string name="task_19">Task C347</string>
+    <string name="task_20">Task C349</string>
+    <string name="task_21">Task C350</string>
+    <string name="task_22">Task C367</string>
+    <string name="task_23">Task C368</string>
+    <string name="task_24">Task C399</string>
 </resources>
+
