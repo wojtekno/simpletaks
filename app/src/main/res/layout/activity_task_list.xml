@@ -4,9 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<variable
-    name="adapter"
-    type="com.gmail.nowak.wjw.simpletasks.presentation.TaskListAdapter" />
+
+
+        <variable
+            name="adapter"
+            type="com.gmail.nowak.wjw.simpletasks.presentation.TaskListAdapter" />
+
+        <variable
+            name="viewModel"
+            type="com.gmail.nowak.wjw.simpletasks.presentation.TaskListViewModel" />
     </data>
 
     <FrameLayout
@@ -24,8 +30,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            android:adapter="@{adapter}"/>
+            android:adapter="@{adapter}"
+            adapterData="@{viewModel.tasksLD}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     </FrameLayout>
 </layout>

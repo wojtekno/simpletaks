@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
@@ -26,9 +27,11 @@ public class TaskListActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_task_list);
         binding.setLifecycleOwner(this);
 
+        TaskListViewModel viewModel = new ViewModelProvider(this).get(TaskListViewModel.class);
+        binding.setViewModel(viewModel);
+
         TaskListAdapter adapter = new TaskListAdapter();
         binding.setAdapter(adapter);
-        adapter.submitList(dummyFromResources());
     }
 
 
@@ -45,18 +48,5 @@ public class TaskListActivity extends AppCompatActivity {
         return mList;
     }
 
-    private static List<TaskViewData> generateDummyData() {
-        List<TaskViewData> mList = new ArrayList<>();
 
-        int id = 0;
-        for (int c = 65; c < 69; c++) {
-            for (int i = 1; i < 7; i++) {
-                char ch = (char) c;
-                String taskName = String.format("Task %s%d", ch, i);
-                mList.add(new TaskViewData(id, taskName, TaskStatus.OPEN));
-                id++;
-            }
-        }
-        return mList;
-    }
 }
