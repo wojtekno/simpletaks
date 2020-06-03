@@ -26,4 +26,16 @@
         <item>@string/task_23</item>
         <item>@string/task_24</item>
     </string-array>
+
+    <integer-array name="item_task_colors_array">
+        <item>@color/colorOpen</item>
+        <item>@color/colorTravelling</item>
+        <item>@color/colorWorking</item>
+    </integer-array>
+
+    <string-array name="button_action_names_array">
+        <item>@string/button_action_start_travelling</item>
+        <item>@string/button_action_start_working</item>
+        <item>@string/button_action_stop</item>
+    </string-array>
 </resources>

@@ -14,6 +14,12 @@ public class TaskViewData {
         this.status = status;
     }
 
+    public TaskViewData(TaskViewData taskViewData) {
+        this.id = taskViewData.id;
+        this.name = taskViewData.name;
+        this.status = taskViewData.status;
+    }
+
     public int getId() {
         return id;
     }
@@ -50,5 +56,9 @@ public class TaskViewData {
 
         TaskViewData task = (TaskViewData) obj;
         return id == task.id && name.equals(task.name) && status.equals(task.status);
+    }
+
+    public void setStatus(TaskStatus status) {
+        this.status = status;
     }
 }

@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        layoutColor="@{task.status}">
 
         <TextView
             android:layout_width="wrap_content"
@@ -34,10 +35,12 @@
             android:text="@{task.status.name()}" />
 
         <Button
+            android:id="@+id/change_status_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
-            android:text="button" />
+            android:text="button"
+            buttonAction="@{task.status}"/>
 
     </LinearLayout>
 </layout>

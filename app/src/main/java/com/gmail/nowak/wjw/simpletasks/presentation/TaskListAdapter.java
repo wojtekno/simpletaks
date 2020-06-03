@@ -14,11 +14,15 @@ import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.databinding.ItemTaskBinding;
 
+import timber.log.Timber;
+
 public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.TaskViewHolder> {
 
+    private ChangeStatusOnClickListener listener;
 
-    protected TaskListAdapter() {
+    protected TaskListAdapter(ChangeStatusOnClickListener changeStatusOnClickListener) {
         super(DIFF_CALLBACK);
+        listener = changeStatusOnClickListener;
     }
 
     @NonNull
@@ -29,24 +33,34 @@ public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.T
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TaskViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull TaskViewHolder holder, final int position) {
         holder.binding.setTask(getItem(position));
+//        holder.binding.changeStatusButton.setOnClickListener(()->{
+////            listener.changeStatusClicked(getItem(position).);
+//        });
+
     }
 
 
-    class TaskViewHolder extends RecyclerView.ViewHolder {
+    class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ItemTaskBinding binding;
 
         public TaskViewHolder(@NonNull ItemTaskBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.changeStatusButton.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            listener.changeStatusClicked(getAdapterPosition());
         }
     }
 
     public static final DiffUtil.ItemCallback<TaskViewData> DIFF_CALLBACK = new DiffUtil.ItemCallback<TaskViewData>() {
         @Override
         public boolean areItemsTheSame(@NonNull TaskViewData oldItem, @NonNull TaskViewData newItem) {
-            return oldItem==newItem;
+            return oldItem == newItem;
         }
 
         @Override
@@ -54,4 +68,8 @@ public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.T
             return oldItem.equals(newItem);
         }
     };
+
+    interface ChangeStatusOnClickListener {
+        void changeStatusClicked(int listPosition);
+    }
 }

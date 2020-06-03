@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">SimpleTasks</string>
 
+    <string name="cannot_work_two_simultaneously">Position %d clicked. You can\'t work on two tasks simultaneously.</string>
+
     <string name="task_1">Task A234</string>
     <string name="task_2">Task A235</string>
     <string name="task_3">Task A236</string>
@@ -25,5 +27,8 @@
     <string name="task_22">Task C367</string>
     <string name="task_23">Task C368</string>
     <string name="task_24">Task C399</string>
+    <string name="button_action_start_travelling">START TRAVEL</string>
+    <string name="button_action_start_working">START WORKING</string>
+    <string name="button_action_stop">STOP</string>
 </resources>
 

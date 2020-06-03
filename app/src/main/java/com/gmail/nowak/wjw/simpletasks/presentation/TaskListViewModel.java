@@ -18,6 +18,7 @@ import timber.log.Timber;
 public class TaskListViewModel extends ViewModel {
 
     private MutableLiveData<List<TaskViewData>> tasksLD = new MutableLiveData<>();
+    private boolean isTaskInProgress;
 
     public TaskListViewModel() {
         tasksLD.setValue(generateDummyData());
@@ -41,5 +42,33 @@ public class TaskListViewModel extends ViewModel {
             }
         }
         return mList;
+    }
+
+    public boolean changeTaskStatus(int listPosition) {
+        //Create a list and a task with a new reference. Otherwise we would modify at the same time a list held in TaskListAdapter.
+        //That in turn wouldn't trigger DiffUtil.ItemCallback
+        List<TaskViewData> taskList = new ArrayList<>(tasksLD.getValue());
+        TaskViewData task = new TaskViewData(taskList.get(listPosition));
+        switch (task.getStatus()) {
+            case OPEN:
+                if(isTaskInProgress){
+                    return false;
+                }
+                task.setStatus(TaskStatus.TRAVELLING);
+                isTaskInProgress=true;
+                break;
+            case TRAVELLING:
+                task.setStatus(TaskStatus.WORKING);
+                break;
+            case WORKING:
+                task.setStatus(TaskStatus.OPEN);
+                isTaskInProgress=false;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + task.getStatus());
+        }
+        taskList.set(listPosition, task);
+        tasksLD.setValue(taskList);
+        return true;
     }
 }
