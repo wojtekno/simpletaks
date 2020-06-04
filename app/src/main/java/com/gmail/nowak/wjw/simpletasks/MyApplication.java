@@ -13,8 +13,7 @@ public class MyApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new MyTagDebugTree());
         }
-
-        appGraph = new AppGraph();
+        appGraph = new AppGraph(this);
 
     }
 }

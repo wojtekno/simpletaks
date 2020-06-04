@@ -25,15 +25,9 @@ public class TaskListViewModel extends ViewModel {
     private boolean isTaskInProgress;
 
     public TaskListViewModel(GetAllTasksUseCase getAllTasksUseCase) {
+        Timber.d("TaskListViewModel::newInstance");
         tasksLD = (MutableLiveData<List<TaskViewData>>) getAllTasksUseCase.getAllTasks();
     }
-
-    Function<List<String>, List<TaskViewData>> transformMap = new Function<List<String>, List<TaskViewData>>() {
-        @Override
-        public List<TaskViewData> apply(List<String> input) {
-            return null;
-        }
-    };
 
     public LiveData<List<TaskViewData>> getTasksLD() {
         return tasksLD;

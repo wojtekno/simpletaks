@@ -29,6 +29,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Timber.d("onCreate");
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_task_list);
         binding.setLifecycleOwner(this);
