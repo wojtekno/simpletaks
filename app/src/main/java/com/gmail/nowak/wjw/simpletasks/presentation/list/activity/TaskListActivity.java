@@ -1,4 +1,4 @@
-package com.gmail.nowak.wjw.simpletasks.presentation;
+package com.gmail.nowak.wjw.simpletasks.presentation.list.activity;
 
 import android.os.Bundle;
 import android.widget.Toast;
@@ -7,10 +7,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.gmail.nowak.wjw.simpletasks.MyApplication;
 import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.databinding.ActivityTaskListBinding;
+import com.gmail.nowak.wjw.simpletasks.presentation.list.model.ListViewModelFactory;
+import com.gmail.nowak.wjw.simpletasks.presentation.list.model.TaskListViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,8 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
         binding = DataBindingUtil.setContentView(this, R.layout.activity_task_list);
         binding.setLifecycleOwner(this);
 
-        viewModel = new ViewModelProvider(this).get(TaskListViewModel.class);
+        ListViewModelFactory viewModelFactory = ((MyApplication)getApplication()).appGraph.listViewModelFactory;
+        viewModel = new ViewModelProvider(this, viewModelFactory).get(TaskListViewModel.class);
         binding.setViewModel(viewModel);
 
         TaskListAdapter adapter = new TaskListAdapter(this);

@@ -1,10 +1,12 @@
 package com.gmail.nowak.wjw.simpletasks.presentation;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
-import androidx.lifecycle.Observer;
+import androidx.lifecycle.MutableLiveData;
 
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
+import com.gmail.nowak.wjw.simpletasks.domain.GetAllTasksUseCase;
+import com.gmail.nowak.wjw.simpletasks.presentation.list.model.TaskListViewModel;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -14,11 +16,13 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
 
 public class TaskListViewModelTest {
 
@@ -28,21 +32,21 @@ public class TaskListViewModelTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
-    Observer<List<TaskViewData>> mObserver;
-
-    TaskListViewModel viewModel;
+    private GetAllTasksUseCase allTasksUseCase;
+    private TaskListViewModel viewModel;
 
 
     @Before
     public void setUp() throws Exception {
-        viewModel = new TaskListViewModel();
-//        viewModel.getTasksLD().observeForever(mObserver);
+        MutableLiveData<List<TaskViewData>> liveData = new MutableLiveData<>(generateDummyData());
+        when(allTasksUseCase.getAllTasks()).thenReturn(liveData);
+        viewModel = new TaskListViewModel(allTasksUseCase);
     }
 
     @Test
     public void testViewModelInitialization() {
         List<TaskViewData> list = viewModel.getTasksLD().getValue();
-        assertEquals(24, list.size());
+        assertEquals(28, list.size());
     }
 
     @Test
@@ -102,7 +106,7 @@ public class TaskListViewModelTest {
     }
 
     @Test
-    public void testChangeStatusOfOneElementAndTryToChangeStatusOfAnotherOne(){
+    public void testChangeStatusOfOneElementAndTryToChangeStatusOfAnotherOne() {
         boolean statusChanged = viewModel.changeTaskStatus(0);
         assertTrue(statusChanged);
         statusChanged = viewModel.changeTaskStatus(1);
@@ -120,7 +124,7 @@ public class TaskListViewModelTest {
     }
 
     @Test
-    public void testChangeStatusOfASecondTaskWhenPreviousOneChangedToOpen(){
+    public void testChangeStatusOfASecondTaskWhenPreviousOneChangedToOpen() {
         boolean statusChanged = viewModel.changeTaskStatus(0);
         assertTrue(statusChanged);
         statusChanged = viewModel.changeTaskStatus(0);
@@ -139,6 +143,21 @@ public class TaskListViewModelTest {
             task = list.get(i);
             assertEquals(TaskStatus.OPEN, task.getStatus());
         }
+    }
+
+    private List<TaskViewData> generateDummyData() {
+        List<TaskViewData> mList = new ArrayList<>();
+
+        int id = 0;
+        for (int c = 65; c < 69; c++) {
+            for (int i = 1; i < 8; i++) {
+                char ch = (char) c;
+                String taskName = String.format("Task %s%d", ch, i);
+                mList.add(new TaskViewData(id, taskName, TaskStatus.OPEN));
+                id++;
+            }
+        }
+        return mList;
     }
 
 

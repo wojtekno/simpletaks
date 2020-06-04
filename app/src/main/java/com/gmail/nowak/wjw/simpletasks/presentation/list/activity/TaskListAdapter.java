@@ -1,4 +1,4 @@
-package com.gmail.nowak.wjw.simpletasks.presentation;
+package com.gmail.nowak.wjw.simpletasks.presentation.list.activity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,8 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.databinding.ItemTaskBinding;
-
-import timber.log.Timber;
 
 public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.TaskViewHolder> {
 

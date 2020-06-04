@@ -1,4 +1,4 @@
-package com.gmail.nowak.wjw.simpletasks.presentation;
+package com.gmail.nowak.wjw.simpletasks.presentation.list.activity;
 
 import android.content.res.Resources;
 import android.view.View;

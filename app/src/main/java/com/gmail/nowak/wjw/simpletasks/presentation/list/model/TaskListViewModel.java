@@ -1,14 +1,17 @@
-package com.gmail.nowak.wjw.simpletasks.presentation;
+package com.gmail.nowak.wjw.simpletasks.presentation.list.model;
 
 import android.content.res.Resources;
 
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
+import com.gmail.nowak.wjw.simpletasks.domain.GetAllTasksUseCase;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,31 +20,23 @@ import timber.log.Timber;
 
 public class TaskListViewModel extends ViewModel {
 
-    private MutableLiveData<List<TaskViewData>> tasksLD = new MutableLiveData<>();
+
+    private MutableLiveData<List<TaskViewData>> tasksLD;// = new MutableLiveData<>();
     private boolean isTaskInProgress;
 
-    public TaskListViewModel() {
-        tasksLD.setValue(generateDummyData());
+    public TaskListViewModel(GetAllTasksUseCase getAllTasksUseCase) {
+        tasksLD = (MutableLiveData<List<TaskViewData>>) getAllTasksUseCase.getAllTasks();
     }
 
+    Function<List<String>, List<TaskViewData>> transformMap = new Function<List<String>, List<TaskViewData>>() {
+        @Override
+        public List<TaskViewData> apply(List<String> input) {
+            return null;
+        }
+    };
 
     public LiveData<List<TaskViewData>> getTasksLD() {
         return tasksLD;
-    }
-
-    private List<TaskViewData> generateDummyData() {
-        List<TaskViewData> mList = new ArrayList<>();
-
-        int id = 0;
-        for (int c = 65; c < 69; c++) {
-            for (int i = 1; i < 7; i++) {
-                char ch = (char) c;
-                String taskName = String.format("Task %s%d", ch, i);
-                mList.add(new TaskViewData(id, taskName, TaskStatus.OPEN));
-                id++;
-            }
-        }
-        return mList;
     }
 
     public boolean changeTaskStatus(int listPosition) {
@@ -51,18 +46,18 @@ public class TaskListViewModel extends ViewModel {
         TaskViewData task = new TaskViewData(taskList.get(listPosition));
         switch (task.getStatus()) {
             case OPEN:
-                if(isTaskInProgress){
+                if (isTaskInProgress) {
                     return false;
                 }
                 task.setStatus(TaskStatus.TRAVELLING);
-                isTaskInProgress=true;
+                isTaskInProgress = true;
                 break;
             case TRAVELLING:
                 task.setStatus(TaskStatus.WORKING);
                 break;
             case WORKING:
                 task.setStatus(TaskStatus.OPEN);
-                isTaskInProgress=false;
+                isTaskInProgress = false;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + task.getStatus());

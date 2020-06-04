@@ -5,6 +5,7 @@ import android.app.Application;
 import timber.log.Timber;
 
 public class MyApplication extends Application {
+    public AppGraph appGraph;
 
     @Override
     public void onCreate() {
@@ -12,5 +13,8 @@ public class MyApplication extends Application {
         if (BuildConfig.DEBUG) {
             Timber.plant(new MyTagDebugTree());
         }
+
+        appGraph = new AppGraph();
+
     }
 }

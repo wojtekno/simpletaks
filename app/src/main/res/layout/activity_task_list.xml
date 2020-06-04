@@ -8,17 +8,17 @@
 
         <variable
             name="adapter"
-            type="com.gmail.nowak.wjw.simpletasks.presentation.TaskListAdapter" />
+            type="com.gmail.nowak.wjw.simpletasks.presentation.list.activity.TaskListAdapter" />
 
         <variable
             name="viewModel"
-            type="com.gmail.nowak.wjw.simpletasks.presentation.TaskListViewModel" />
+            type="com.gmail.nowak.wjw.simpletasks.presentation.list.model.TaskListViewModel" />
     </data>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.TaskListActivity">
+        tools:context=".presentation.list.activity.TaskListActivity">
 
         <TextView
             android:id="@+id/debugging_tv"
