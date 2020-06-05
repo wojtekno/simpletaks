@@ -5,6 +5,7 @@
     <color name="colorAccent">#E87A18</color>
 
     <color name="colorOpen">#C5C7C5</color>
-    <color name="colorTravelling">#BF360C</color>
+<!--    <color name="colorTravelling">#BF360C</color>-->
+    <color name="colorTravelling">@color/colorAccent</color>
     <color name="colorWorking">#33691E</color>
 </resources>

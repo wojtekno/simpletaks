@@ -4,9 +4,9 @@
     <string name="cannot_work_two_simultaneously">Position %d clicked. You can\'t work on two tasks simultaneously.</string>
 
     <string name="task_1">Task A234</string>
-    <string name="task_2">Task A235</string>
+    <string name="task_2">Some long task name</string>
     <string name="task_3">Task A236</string>
-    <string name="task_4">Task A237</string>
+    <string name="task_4">Very long task name so it doesn\'t fit the portrait screen. Therefore it\'s easy to see what happens in this case.</string>
     <string name="task_5">Task A238</string>
     <string name="task_6">Task A239</string>
     <string name="task_7">Task A240</string>
@@ -28,7 +28,7 @@
     <string name="task_23">Task C368</string>
     <string name="task_24">Task C399</string>
     <string name="button_action_start_travelling">START TRAVEL</string>
-    <string name="button_action_start_working">START WORKING</string>
+    <string name="button_action_start_working">START WORK</string>
     <string name="button_action_stop">STOP</string>
 </resources>
 

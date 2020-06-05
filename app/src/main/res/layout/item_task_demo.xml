@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <data>
+
+        <variable
+            name="isAnyInProgress"
+            type="androidx.lifecycle.LiveData&lt;Boolean>" />
+
+        <variable
+            name="task"
+            type="com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp">
+
+        <TextView
+            android:id="@+id/task_name_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{task.name}"
+            app:layout_constraintHorizontal_weight="7"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Long name of a task to display" />
+
+        <TextView
+            android:id="@+id/task_status_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{task.status.name()}"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@id/task_name_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Travelling" />
+
+        <TextView
+            android:id="@+id/task_action_tv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{task.status.name()}"
+            app:layout_constraintHorizontal_weight="7"
+            app:layout_constraintStart_toEndOf="@id/task_status_tv"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="START TRAVELLING" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

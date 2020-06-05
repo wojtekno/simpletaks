@@ -59,7 +59,7 @@ public class ListActivityBindings {
     @BindingAdapter(value = {"buttonAction", "android:visibility"})
     public static void setButtonTextAndVisibility(Button button, TaskStatus taskStatus, Boolean isAnyInProgress) {
         if (TaskStatus.OPEN == taskStatus && isAnyInProgress) {
-            button.setVisibility(View.GONE);
+            button.setVisibility(View.INVISIBLE);
         } else {
             String action;
             Resources res = button.getResources();
