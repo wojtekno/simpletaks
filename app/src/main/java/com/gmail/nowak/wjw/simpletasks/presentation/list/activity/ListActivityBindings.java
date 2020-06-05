@@ -33,7 +33,6 @@ public class ListActivityBindings {
         }
     }
 
-
     /**
      * Set view's background color depending on the provided TaskStatus
      *

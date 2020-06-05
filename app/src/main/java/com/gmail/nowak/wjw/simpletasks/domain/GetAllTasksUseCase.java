@@ -39,6 +39,7 @@ public class GetAllTasksUseCase {
     }
 
 
+    //todo delete
     private List<TaskViewData> generateDummyData() {
         List<TaskViewData> mList = new ArrayList<>();
 

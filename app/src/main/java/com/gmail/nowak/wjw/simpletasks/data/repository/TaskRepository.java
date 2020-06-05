@@ -27,6 +27,7 @@ public class TaskRepository {
         return db.taskDao().getAllTasks();
     }
 
+    //todo delete
     private List<String> generateStringDummyData() {
         List<String> mList = new ArrayList<>();
 

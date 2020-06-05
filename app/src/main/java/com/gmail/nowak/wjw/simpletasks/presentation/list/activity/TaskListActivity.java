@@ -13,7 +13,6 @@ import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.databinding.ActivityTaskListBinding;
-import com.gmail.nowak.wjw.simpletasks.presentation.list.model.ListViewModelFactory;
 import com.gmail.nowak.wjw.simpletasks.presentation.list.model.ListViewModelFactory_Factory;
 import com.gmail.nowak.wjw.simpletasks.presentation.list.model.TaskListViewModel;
 
@@ -47,11 +46,10 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
         viewModel = new ViewModelProvider(this, listViewModelFactory_factory.create(savedPosition, savedStatus)).get(TaskListViewModel.class);
         binding.setViewModel(viewModel);
 
-//        TaskListAdapter adapter = new TaskListAdapter(this);
         binding.setAdapter(new TaskListAdapter(this, this));
     }
 
-
+    //todo delete
     private List<TaskViewData> dummyFromResources() {
         String[] strings = getResources().getStringArray(R.array.source_dummy_data);
         Timber.d("String array: %d", strings.length);
@@ -71,6 +69,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
      */
     @Override
     public void changeStatusClicked(int listPosition) {
+        //todo delete toastMessage feature
         if (mToast != null) {
             mToast.cancel();
         }
@@ -92,4 +91,5 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
         ;
         mToast.show();
     }
+
 }

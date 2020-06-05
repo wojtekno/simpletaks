@@ -28,8 +28,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
+            app:layout_constraintHorizontal_weight="2"
             android:ellipsize="end"
-            android:gravity="end"
+            android:gravity="start"
             android:maxLines="1"
             android:text='@{String.format("#%d",task.id)}'
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -41,7 +42,8 @@
 
         <TextView
             android:id="@+id/task_status_tv"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            app:layout_constraintHorizontal_weight="1"
             android:layout_height="wrap_content"
             android:text="@{task.status.name()}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"

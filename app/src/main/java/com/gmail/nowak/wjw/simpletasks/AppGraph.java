@@ -9,6 +9,7 @@ import com.gmail.nowak.wjw.simpletasks.presentation.list.model.ListViewModelFact
 
 import timber.log.Timber;
 
+//todo clean the class
 public class AppGraph {
 
     private AppDatabase appDatabase;// = AppDatabase.getInstance()

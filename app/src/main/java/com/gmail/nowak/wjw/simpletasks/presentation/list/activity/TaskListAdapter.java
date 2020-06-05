@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
-import com.gmail.nowak.wjw.simpletasks.databinding.ItemTask2Binding;
 import com.gmail.nowak.wjw.simpletasks.databinding.ItemTaskBinding;
 
 import timber.log.Timber;
@@ -36,8 +35,7 @@ public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.T
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        ItemTaskBinding itemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_task2, parent, false);
-        ItemTask2Binding itemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_task2, parent, false);
+        ItemTaskBinding itemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_task, parent, false);
 
         return new TaskViewHolder(itemBinding, isAnyTaskInProgress);
     }
@@ -55,9 +53,9 @@ public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.T
 
 
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        ItemTask2Binding binding;
+        ItemTaskBinding binding;
 
-        public TaskViewHolder(@NonNull ItemTask2Binding binding, LiveData<Boolean> progressFlag) {
+        public TaskViewHolder(@NonNull ItemTaskBinding binding, LiveData<Boolean> progressFlag) {
             super(binding.getRoot());
             this.binding = binding;
             binding.setIsAnyInProgress(progressFlag);

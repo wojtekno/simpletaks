@@ -5,8 +5,8 @@
 
     <string name="task_1">Task A234</string>
     <string name="task_2">Some long task name</string>
-    <string name="task_3">Task A236</string>
-    <string name="task_4">Very long task name so it doesn\'t fit the portrait screen. Therefore it\'s easy to see what happens in this case.</string>
+    <string name="task_3">Another long task name, a bit longer</string>
+    <string name="task_4">Very long task name so it doesn\'t fit the portrait screen. Therefore it\'s easy to see what happens in this case. Some of the text might be invisible</string>
     <string name="task_5">Task A238</string>
     <string name="task_6">Task A239</string>
     <string name="task_7">Task A240</string>
