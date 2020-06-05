@@ -9,6 +9,7 @@ import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
 import com.gmail.nowak.wjw.simpletasks.R;
+import com.gmail.nowak.wjw.simpletasks.data.local.TaskEntity;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.domain.GetAllTasksUseCase;
@@ -24,15 +25,41 @@ public class TaskListViewModel extends ViewModel {
     private MutableLiveData<List<TaskViewData>> tasksLD;// = new MutableLiveData<>();
     private boolean isTaskInProgress;
 
+    //todo delete
     public TaskListViewModel(GetAllTasksUseCase getAllTasksUseCase) {
         Timber.d("TaskListViewModel::newInstance");
         tasksLD = (MutableLiveData<List<TaskViewData>>) getAllTasksUseCase.getAllTasks();
     }
 
+    public TaskListViewModel(GetAllTasksUseCase getAllTasksUseCase, final int savedPosition, final String taskStatus) {
+        Timber.d("TaskListViewModel::newInstance(%d, %s)", savedPosition, taskStatus);
+        if (savedPosition == -1) {
+            tasksLD = (MutableLiveData<List<TaskViewData>>) getAllTasksUseCase.getAllTasks();
+        } else {
+            tasksLD = (MutableLiveData<List<TaskViewData>>) Transformations.map(getAllTasksUseCase.getAllTasks(), new Function<List<TaskViewData>, List<TaskViewData>>() {
+                @Override
+                public List<TaskViewData> apply(List<TaskViewData> input) {
+                    input.get(savedPosition).setStatus(TaskStatus.OPEN.valueOf(taskStatus));
+                    isTaskInProgress = true;
+                    return input;
+                }
+            });
+        }
+        Timber.d("DONE TaskListViewModel::newInstance(%d, %s)", savedPosition, taskStatus);
+    }
+
+
     public LiveData<List<TaskViewData>> getTasksLD() {
         return tasksLD;
     }
 
+    /**
+     * Handles changing status of a Task stored in TasksLD.
+     * If there is already a task with status other then OPEN, it doesn't allow for another change.
+     * Only one task at a time can have status other than OPEN
+     * @param listPosition position in the list of task to change
+     * @return true if changed made, false otherwise
+     */
     public boolean changeTaskStatus(int listPosition) {
         //Create a list and a task with a new reference. Otherwise we would modify at the same time a list held in TaskListAdapter.
         //That in turn wouldn't trigger DiffUtil.ItemCallback

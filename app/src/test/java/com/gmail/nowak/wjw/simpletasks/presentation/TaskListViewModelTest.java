@@ -2,6 +2,7 @@ package com.gmail.nowak.wjw.simpletasks.presentation;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
@@ -22,6 +23,7 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.booleanThat;
 import static org.mockito.Mockito.when;
 
 public class TaskListViewModelTest {
@@ -34,13 +36,22 @@ public class TaskListViewModelTest {
     @Mock
     private GetAllTasksUseCase allTasksUseCase;
     private TaskListViewModel viewModel;
+    @Mock
+    private Observer<List<TaskViewData>> observer;
 
 
     @Before
     public void setUp() throws Exception {
         MutableLiveData<List<TaskViewData>> liveData = new MutableLiveData<>(generateDummyData());
         when(allTasksUseCase.getAllTasks()).thenReturn(liveData);
-        viewModel = new TaskListViewModel(allTasksUseCase);
+        viewModel = new TaskListViewModel(allTasksUseCase, -1, TaskStatus.OPEN.name());
+        viewModel.getTasksLD().observeForever(observer);
+    }
+
+    private void initializeViewModelWithParameters(int position, String taskStatus) {
+        viewModel = new TaskListViewModel(allTasksUseCase, position, taskStatus);
+        viewModel.getTasksLD().observeForever(observer);
+
     }
 
     @Test
@@ -158,6 +169,40 @@ public class TaskListViewModelTest {
             }
         }
         return mList;
+    }
+
+    @Test
+    public void testNoChangesWithParameters() {
+        initializeViewModelWithParameters(0, TaskStatus.TRAVELLING.name());
+        List<TaskViewData> list = viewModel.getTasksLD().getValue();
+        TaskViewData task = list.get(0);
+        assertEquals(TaskStatus.TRAVELLING, task.getStatus());
+        for (int i = 1; i < list.size(); i++) {
+            task = list.get(i);
+            assertEquals(TaskStatus.OPEN, task.getStatus());
+        }
+    }
+
+    @Test
+    public void testInitializeWithParametersAndTryToChangeOtherTask() {
+        initializeViewModelWithParameters(0, TaskStatus.TRAVELLING.name());
+        List<TaskViewData> list = viewModel.getTasksLD().getValue();
+        TaskViewData task = list.get(0);
+        assertEquals(TaskStatus.TRAVELLING, task.getStatus());
+        for (int i = 1; i < list.size(); i++) {
+            task = list.get(i);
+            assertEquals(TaskStatus.OPEN, task.getStatus());
+        }
+
+        boolean statusChanged = viewModel.changeTaskStatus(1);
+        assertFalse(statusChanged);
+        list = viewModel.getTasksLD().getValue();
+        task = list.get(0);
+        assertEquals(TaskStatus.TRAVELLING, task.getStatus());
+        for (int i = 1; i < list.size(); i++) {
+            task = list.get(i);
+            assertEquals(TaskStatus.OPEN, task.getStatus());
+        }
     }
 
 

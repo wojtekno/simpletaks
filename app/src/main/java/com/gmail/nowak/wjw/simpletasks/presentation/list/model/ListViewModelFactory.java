@@ -11,15 +11,20 @@ import timber.log.Timber;
 public class ListViewModelFactory extends ViewModelProvider.NewInstanceFactory {
 
     private GetAllTasksUseCase useCase;
+    private int savedPosition;
+    private String savedStatus;
 
-    public ListViewModelFactory(GetAllTasksUseCase useCase) {
+    public ListViewModelFactory(GetAllTasksUseCase useCase, int savedPosition, String savedStatus) {
         Timber.d("ListViewModelFactory::newInstance");
         this.useCase = useCase;
+        this.savedPosition = savedPosition;
+        this.savedStatus = savedStatus;
     }
+
 
     @NonNull
     @Override
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
-        return (T) new TaskListViewModel(useCase);
+        return (T) new TaskListViewModel(useCase, savedPosition, savedStatus);
     }
 }

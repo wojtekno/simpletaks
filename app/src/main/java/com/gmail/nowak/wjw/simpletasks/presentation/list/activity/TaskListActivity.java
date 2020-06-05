@@ -1,5 +1,6 @@
 package com.gmail.nowak.wjw.simpletasks.presentation.list.activity;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -13,6 +14,7 @@ import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.databinding.ActivityTaskListBinding;
 import com.gmail.nowak.wjw.simpletasks.presentation.list.model.ListViewModelFactory;
+import com.gmail.nowak.wjw.simpletasks.presentation.list.model.ListViewModelFactory_Factory;
 import com.gmail.nowak.wjw.simpletasks.presentation.list.model.TaskListViewModel;
 
 import java.util.ArrayList;
@@ -22,9 +24,12 @@ import timber.log.Timber;
 
 public class TaskListActivity extends AppCompatActivity implements TaskListAdapter.ChangeStatusOnClickListener {
 
-    ActivityTaskListBinding binding;
-    TaskListViewModel viewModel;
-    Toast mToast;
+    private ActivityTaskListBinding binding;
+    private TaskListViewModel viewModel;
+    private Toast mToast;
+    private final static String SAVED_POSITION_KEY = "position";
+    private final static String SAVED_STATE_KEY = "state";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +39,16 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
         binding = DataBindingUtil.setContentView(this, R.layout.activity_task_list);
         binding.setLifecycleOwner(this);
 
-        ListViewModelFactory viewModelFactory = ((MyApplication)getApplication()).appGraph.listViewModelFactory;
-        viewModel = new ViewModelProvider(this, viewModelFactory).get(TaskListViewModel.class);
+        //restoring persisted data
+        int savedPosition = getPreferences(MODE_PRIVATE).getInt(SAVED_POSITION_KEY, -1);
+        String savedStatus = getPreferences(MODE_PRIVATE).getString(SAVED_STATE_KEY, TaskStatus.OPEN.name());
+
+        ListViewModelFactory_Factory listViewModelFactory_factory = ((MyApplication) getApplication()).appGraph.listViewModelFactory_factory;
+        viewModel = new ViewModelProvider(this, listViewModelFactory_factory.create(savedPosition, savedStatus)).get(TaskListViewModel.class);
         binding.setViewModel(viewModel);
 
-        TaskListAdapter adapter = new TaskListAdapter(this);
-        binding.setAdapter(adapter);
+//        TaskListAdapter adapter = new TaskListAdapter(this);
+        binding.setAdapter(new TaskListAdapter(this));
     }
 
 
@@ -56,18 +65,31 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
         return mList;
     }
 
-
+    /**
+     * Informs viewModel about changeStatus button clicked
+     * @param listPosition position of a TaskItem clicked
+     */
     @Override
     public void changeStatusClicked(int listPosition) {
-        if(mToast!=null){
+        if (mToast != null) {
             mToast.cancel();
         }
-
-        if(viewModel.changeTaskStatus(listPosition)){
-            mToast =Toast.makeText(this, String.format("Posiotion %d clicked", listPosition), Toast.LENGTH_SHORT);
+        if (viewModel.changeTaskStatus(listPosition)) {
+            TaskViewData changedTask = viewModel.getTasksLD().getValue().get(listPosition);
+            SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+            if (changedTask.getStatus() != TaskStatus.OPEN) {
+                editor.putInt(SAVED_POSITION_KEY, listPosition);
+                editor.putString(SAVED_STATE_KEY, changedTask.getStatus().name());
+            } else {
+                editor.remove(SAVED_POSITION_KEY);
+                editor.remove(SAVED_STATE_KEY);
+            }
+            editor.commit();
+            mToast = Toast.makeText(this, String.format("Posiotion %d clicked", listPosition), Toast.LENGTH_SHORT);
         } else {
-            mToast= Toast.makeText(this, String.format(getString(R.string.cannot_work_two_simultaneously), listPosition), Toast.LENGTH_SHORT);
-        };
+            mToast = Toast.makeText(this, String.format(getString(R.string.cannot_work_two_simultaneously), listPosition), Toast.LENGTH_SHORT);
+        }
+        ;
         mToast.show();
     }
 }

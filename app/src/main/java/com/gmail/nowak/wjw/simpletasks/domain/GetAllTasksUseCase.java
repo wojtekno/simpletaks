@@ -20,19 +20,15 @@ public class GetAllTasksUseCase {
 
     public GetAllTasksUseCase(TaskRepository repository) {
         Timber.d("GetAllTasksUseCase::newInstance");
-        //todo make it oneliner
-        LiveData<List<TaskEntity>> taskStrings = repository.getAllTasks();
-        allTasksLD = Transformations.map(taskStrings, transform);
+        allTasksLD = Transformations.map(repository.getAllTasks(), transform);
     }
 
     Function<List<TaskEntity>, List<TaskViewData>> transform = new Function<List<TaskEntity>, List<TaskViewData>>() {
         @Override
         public List<TaskViewData> apply(List<TaskEntity> input) {
             List<TaskViewData> tasks = new ArrayList<>();
-            int id = 0;
             for (TaskEntity taskEntity : input) {
                 tasks.add(new TaskViewData(taskEntity.getId(), taskEntity.getName(), TaskStatus.OPEN));
-                id++;
             }
             return tasks;
         }
