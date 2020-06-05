@@ -18,7 +18,7 @@ import timber.log.Timber;
 public class TaskListViewModel extends ViewModel {
 
 
-    private MutableLiveData<List<TaskViewData>> tasksLD;// = new MutableLiveData<>();
+    private MutableLiveData<List<TaskViewData>> tasksLD;
     private boolean isAnyTaskInProgress;
 
     //todo delete
@@ -36,10 +36,10 @@ public class TaskListViewModel extends ViewModel {
                 @Override
                 public List<TaskViewData> apply(List<TaskViewData> input) {
                     input.get(savedPosition).setStatus(TaskStatus.OPEN.valueOf(taskStatus));
-                    isAnyTaskInProgress = true;
                     return input;
                 }
             });
+            isAnyTaskInProgress = true;
         }
         Timber.d("DONE TaskListViewModel::newInstance(%d, %s)", savedPosition, taskStatus);
     }
@@ -53,6 +53,7 @@ public class TaskListViewModel extends ViewModel {
      * Handles changing status of a Task stored in TasksLD.
      * If there is already a task with status other then OPEN, it doesn't allow for another change.
      * Only one task at a time can have status other than OPEN
+     *
      * @param listPosition position in the list of task to change
      * @return true if changed made, false otherwise
      */
@@ -87,4 +88,5 @@ public class TaskListViewModel extends ViewModel {
     public boolean isAnyTaskInProgress() {
         return isAnyTaskInProgress;
     }
+
 }
