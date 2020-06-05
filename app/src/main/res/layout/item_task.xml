@@ -4,16 +4,20 @@
     <data>
 
         <variable
+            name="isAnyInProgress"
+            type="androidx.lifecycle.LiveData&lt;Boolean>" />
+
+        <variable
             name="task"
             type="com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData" />
     </data>
 
     <LinearLayout
+        layoutColor="@{task.status}"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        layoutColor="@{task.status}">
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="wrap_content"
@@ -27,7 +31,6 @@
             android:layout_marginHorizontal="16dp"
             android:text="@{String.valueOf(task.id)}" />
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -36,11 +39,12 @@
 
         <Button
             android:id="@+id/change_status_button"
+            buttonAction="@{task.status}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:text="button"
-            buttonAction="@{task.status}"/>
+            android:visibility="@{isAnyInProgress}" />
 
     </LinearLayout>
 </layout>

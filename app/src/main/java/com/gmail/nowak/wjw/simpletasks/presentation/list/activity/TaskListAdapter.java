@@ -6,6 +6,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,36 +22,42 @@ import timber.log.Timber;
 public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.TaskViewHolder> {
 
     private ChangeStatusOnClickListener listener;
+    private MutableLiveData<Boolean> isAnytaskInProgress = new MutableLiveData<>(false);
+    private LifecycleOwner lifecycleOwner;
 
-    protected TaskListAdapter(ChangeStatusOnClickListener changeStatusOnClickListener) {
+    protected TaskListAdapter(ChangeStatusOnClickListener changeStatusOnClickListener, LifecycleOwner lifecycleOwner) {
         super(DIFF_CALLBACK);
         Timber.d("TaskListAdapter::newInstance");
         listener = changeStatusOnClickListener;
+        this.lifecycleOwner = lifecycleOwner;
     }
 
     @NonNull
     @Override
     public TaskViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemTaskBinding itemBinding = DataBindingUtil.inflate(LayoutInflater.from(parent.getContext()), R.layout.item_task, parent, false);
-        return new TaskViewHolder(itemBinding);
+        return new TaskViewHolder(itemBinding, isAnytaskInProgress);
     }
 
     @Override
     public void onBindViewHolder(@NonNull TaskViewHolder holder, final int position) {
         holder.binding.setTask(getItem(position));
-//        holder.binding.changeStatusButton.setOnClickListener(()->{
-////            listener.changeStatusClicked(getItem(position).);
-//        });
+        holder.binding.setLifecycleOwner(lifecycleOwner);
+        holder.binding.executePendingBindings();
+    }
 
+    public void setTaskInProgress(boolean isTaskInProgress) {
+        this.isAnytaskInProgress.setValue(isTaskInProgress);
     }
 
 
     class TaskViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ItemTaskBinding binding;
 
-        public TaskViewHolder(@NonNull ItemTaskBinding binding) {
+        public TaskViewHolder(@NonNull ItemTaskBinding binding, LiveData<Boolean> progressFlag) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.setIsAnyInProgress(progressFlag);
             binding.changeStatusButton.setOnClickListener(this);
         }
 

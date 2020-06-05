@@ -48,7 +48,7 @@ public class TaskListActivity extends AppCompatActivity implements TaskListAdapt
         binding.setViewModel(viewModel);
 
 //        TaskListAdapter adapter = new TaskListAdapter(this);
-        binding.setAdapter(new TaskListAdapter(this));
+        binding.setAdapter(new TaskListAdapter(this, this));
     }
 
 

@@ -1,15 +1,11 @@
 package com.gmail.nowak.wjw.simpletasks.presentation.list.model;
 
-import android.content.res.Resources;
-
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 
-import com.gmail.nowak.wjw.simpletasks.R;
-import com.gmail.nowak.wjw.simpletasks.data.local.TaskEntity;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskStatus;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.domain.GetAllTasksUseCase;
@@ -23,7 +19,7 @@ public class TaskListViewModel extends ViewModel {
 
 
     private MutableLiveData<List<TaskViewData>> tasksLD;// = new MutableLiveData<>();
-    private boolean isTaskInProgress;
+    private boolean isAnyTaskInProgress;
 
     //todo delete
     public TaskListViewModel(GetAllTasksUseCase getAllTasksUseCase) {
@@ -40,7 +36,7 @@ public class TaskListViewModel extends ViewModel {
                 @Override
                 public List<TaskViewData> apply(List<TaskViewData> input) {
                     input.get(savedPosition).setStatus(TaskStatus.OPEN.valueOf(taskStatus));
-                    isTaskInProgress = true;
+                    isAnyTaskInProgress = true;
                     return input;
                 }
             });
@@ -67,18 +63,18 @@ public class TaskListViewModel extends ViewModel {
         TaskViewData task = new TaskViewData(taskList.get(listPosition));
         switch (task.getStatus()) {
             case OPEN:
-                if (isTaskInProgress) {
+                if (isAnyTaskInProgress) {
                     return false;
                 }
                 task.setStatus(TaskStatus.TRAVELLING);
-                isTaskInProgress = true;
+                isAnyTaskInProgress = true;
                 break;
             case TRAVELLING:
                 task.setStatus(TaskStatus.WORKING);
                 break;
             case WORKING:
                 task.setStatus(TaskStatus.OPEN);
-                isTaskInProgress = false;
+                isAnyTaskInProgress = false;
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + task.getStatus());
@@ -86,5 +82,9 @@ public class TaskListViewModel extends ViewModel {
         taskList.set(listPosition, task);
         tasksLD.setValue(taskList);
         return true;
+    }
+
+    public boolean isAnyTaskInProgress() {
+        return isAnyTaskInProgress;
     }
 }
