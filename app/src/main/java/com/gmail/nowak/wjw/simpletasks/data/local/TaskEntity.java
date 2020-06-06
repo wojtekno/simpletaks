@@ -17,7 +17,7 @@ public class TaskEntity {
         this.name = name;
     }
 
-    public TaskEntity(String name){
+    public TaskEntity(String name) {
         this.name = name;
     }
 

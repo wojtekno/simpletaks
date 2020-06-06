@@ -17,8 +17,6 @@ import com.gmail.nowak.wjw.simpletasks.R;
 import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 import com.gmail.nowak.wjw.simpletasks.databinding.ItemTaskBinding;
 
-import timber.log.Timber;
-
 public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.TaskViewHolder> {
 
     private ChangeStatusOnClickListener listener;
@@ -27,7 +25,6 @@ public class TaskListAdapter extends ListAdapter<TaskViewData, TaskListAdapter.T
 
     protected TaskListAdapter(ChangeStatusOnClickListener changeStatusOnClickListener, LifecycleOwner lifecycleOwner) {
         super(DIFF_CALLBACK);
-        Timber.d("TaskListAdapter::newInstance");
         listener = changeStatusOnClickListener;
         this.lifecycleOwner = lifecycleOwner;
     }

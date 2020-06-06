@@ -47,15 +47,16 @@ public abstract class AppDatabase extends RoomDatabase {
                         })
                         .build();
             }
+        } else {
+            Timber.d("Getting the database instance");
         }
-        Timber.d("Getting the database instance");
         return sInstance;
     }
 
     private static List<TaskEntity> generateDummyEntries(Application applicationContext) {
         List<TaskEntity> entities = new ArrayList<>();
         String[] dummyStrings = applicationContext.getResources().getStringArray(R.array.source_dummy_data);
-        for(String string :dummyStrings){
+        for (String string : dummyStrings) {
             entities.add(new TaskEntity(string));
         }
         return entities;

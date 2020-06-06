@@ -13,8 +13,6 @@ import com.gmail.nowak.wjw.simpletasks.data.model.TaskViewData;
 
 import java.util.List;
 
-import timber.log.Timber;
-
 public class ListActivityBindings {
 
     /**

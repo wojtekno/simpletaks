@@ -43,9 +43,9 @@
             android:text="@{task.status.name()}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/darker_gray"
+            app:layout_constraintHorizontal_bias="0"
             app:layout_constraintStart_toStartOf="@id/task_name_tv"
             app:layout_constraintTop_toBottomOf="@id/task_id_tv"
-            app:layout_constraintHorizontal_bias="0"
             tools:text="TRAVELLING" />
 
         <TextView
@@ -62,7 +62,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/task_status_tv"
             tools:text="Dig a big whole and see what happens there. If you dig enough you might reach China" />
-
 
         <Button
             android:id="@+id/change_status_button"

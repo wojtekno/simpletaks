@@ -28,7 +28,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginRight="16dp"
-            app:layout_constraintHorizontal_weight="2"
             android:ellipsize="end"
             android:gravity="start"
             android:maxLines="1"
@@ -36,6 +35,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/black"
             app:layout_constraintEnd_toStartOf="@id/change_status_button"
+            app:layout_constraintHorizontal_weight="2"
             app:layout_constraintStart_toEndOf="@id/task_status_tv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="#DCU/ 2020/06/08 90" />
@@ -43,13 +43,13 @@
         <TextView
             android:id="@+id/task_status_tv"
             android:layout_width="0dp"
-            app:layout_constraintHorizontal_weight="1"
             android:layout_height="wrap_content"
             android:text="@{task.status.name()}"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="@android:color/darker_gray"
             app:layout_constraintEnd_toStartOf="@id/task_id_tv"
             app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="@id/task_name_tv"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="TRAVELLING" />
@@ -68,7 +68,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/task_status_tv"
             tools:text="Dig a big whole and see what is happening there. If you dig enough you might reach China" />
-
 
         <Button
             android:id="@+id/change_status_button"
